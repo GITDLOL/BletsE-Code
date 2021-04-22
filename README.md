@@ -28,11 +28,3 @@ The current tips are:
 
 
 The Memes Command, you can give me some more memes to include in my bot by going to my #suggestions in my discord server.
-
-
-# Things you cannot change ever
-
-The Bot's presence
-credits (I will include you in the credits if your change gets approved)
-botinvite
-sourecode
