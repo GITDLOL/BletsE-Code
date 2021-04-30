@@ -45,10 +45,17 @@ async def on_ready():
 
 @bot.command(name='help')
 async def help(message):
-    Help = discord.Embed(title="Help Page", description="The Official Help Page for my bot **BletsE**", color=0x00ff00)
-    Help.add_field(name="Important Stuff", value="**>help**\n Brings up the Help Menu.\n\n **>botinvite**\n Tells you the bot invite link. \n\n **>credits**\n Gives all credits \n\n **>sourcecode** \n Gives you the source code to the bot.", inline=False)
-    Help.add_field(name="Main Commands", value="**>pingme** \n Just Pings you. \n\n **>facts** \n Gives you a random fact. \n\n **>memes** \n Gives you a random meme. \n\n **>randomword** \n Gives you a random complicated word." )
-    await message.send(embed=Help)
+  await message.send("Check your DMs ✅")
+  Help=discord.Embed(title="Help Page", description="The **Help Page** of the Bot **BletsE**", color=0x00ff00)
+  Help.add_field(name="All Commands", value="📜 **This command gives a random Fact** ```>facts```\n 👿 **Pings you** ```>pingme```\n 🦾 **Gives the invite for the bot.** ```>botinvite```\n 📇 **Gives the source code for the bot** ```>sourcecode```\n 🔠 **Gives you a random word.** ```>randomword```\n 💌 **Gives you a random image** ```>randomimage```\n 😂 **Gives you a random meme**\n ```>memes```\n 🦜**Repeats what you say in an embed** ```>embedsay \"YOU HAVE TO PUT THE THINGS YOU SAY IN QUOTATION MARKS OR IT BREAKS\"```", inline=False)
+  await message.author.send(embed=Help)
+
+@bot.command(name='nondmhelp')
+async def nondmhelp(message):
+  Help=discord.Embed(title="Help Page", description="The **Help Page** of the Bot **BletsE**", color=0x00ff00)
+  Help.add_field(name="All Commands", value="📜 **This command gives a random Fact** ```>facts```\n 👿 **Pings you** ```>pingme```\n 🦾 **Gives the invite for the bot.** ```>botinvite```\n 📇 **Gives the source code for the bot** ```>sourcecode```\n 🔠 **Gives you a random word.** ```>randomword```\n 💌 **Gives you a random image** ```>randomimage```\n 😂 **Gives you a random meme**\n ```>memes```\n 🦜**Repeats what you say in an embed** ```>embedsay \"YOU HAVE TO PUT THE THINGS YOU SAY IN QUOTATION MARKS OR IT BREAKS\"```", inline=False)
+  await message.send(embed=Help)
+
 
 @bot.command(name='pingme')
 async def pingme(message):
@@ -86,11 +93,12 @@ async def sourcecode(message):
 
 @bot.command(name='memes')
 async def meme(message):
-  num = randint(0, 5)
+  num = randint(0, 4)
   try:
       await message.send(file = discord.File("MEMES/{}.jpg".format(num))) 
   except:
       await message.send(file = discord.File("MEMES/{}.png".format(num)))
+
 @bot.command(name='randomword')
 async def randomword(message):
   RandomWords = [
@@ -103,7 +111,51 @@ async def randomword(message):
   ]
 
   RandomWordsResponse = random.choice(RandomWords)
-  await message.send(RandomWordsResponse)
+  RandWordEmbed = discord.Embed(title=RandomWordsResponse)
+  await message.send(embed=RandWordEmbed)
+
+@bot.command(name='randomimage')
+async def randomimage(message):
+  num = randint(0, 5)
+  try:
+      await message.send(file = discord.File("RandImages/{}.jpg".format(num))) 
+  except:
+      await message.send(file = discord.File("RandImages/{}.png".format(num)))
+
+@bot.command(name='randomname')
+async def randomname(message):
+  randNames = [
+    "**Eric**",
+    "**Adam**",
+    "**Michael**",
+    "**Curtis**",
+    "**Tomato**",
+  ]
+  RandomNameResponse = random.choice(randNames)
+  await message.send(RandomNameResponse)
+
+@bot.command(name='embedsay')
+async def embedsay(message, args):
+  embedSay=discord.Embed(title="You said: ", description=args, color=0x00ff00)
+  await message.send(embed=embedSay)
+
+@bot.command(name='botversion')
+async def botversion(message):
+  BotVersion=discord.Embed(title="0.0.1 ", description="The bot is currently on Version 0.0.1 to see more versions click here: https://github.com/GITDLOL/BletsE-Code", color=0x00ff00)
+  await message.send(embed=BotVersion)
+
+@bot.command(name='randomwebsite')
+async def randweb(message):
+  RandomWebsites = [
+    "https://www.agegeek.com/",
+    "https://www.worldsdumbestgame.com/",
+    "https://www.crazycardtrick.com/",
+    "https://www.inherentlyfunny.com/",
+    "https://hczhcz.github.io/Flappy-2048/"
+  ]
+  RandWebRandomizer = random.choice(RandomWebsites)
+  RandWeb = discord.Embed(title="Here is your random website (Not NSFW): ", description=RandWebRandomizer)
+  await message.send(embed=RandWeb)
 
 
 # keep_alive() gives the bot 24/7 hosting.
