@@ -1,6 +1,15 @@
 # BletsE Source Code
 Here is some documentation on my BletsE bot.
 
+# Changelog
+
+**V. 0.0.2**
+Mostly some new random commands and more information commmands
+
+**V. 0.0.1**
+Nothing Much except some new random commands like >randomword, >randomimage.
+
+
 # Documentation
 The bot's Prefix is **">"**
 If you wanna help make the code better or
@@ -28,9 +37,3 @@ Here are the things that you can change and will get approved unless an exceptio
 
 
 **The Memes Command, you can give me some more memes to include in my bot by going to my #suggestions in my discord server.**
-
-
-# Changelog
-
-**V. 0.0.1**
-Nothing Much except some new random commands like >randomword, >randomimage.
