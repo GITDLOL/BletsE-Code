@@ -28,3 +28,9 @@ Here are the things that you can change and will get approved unless an exceptio
 
 
 **The Memes Command, you can give me some more memes to include in my bot by going to my #suggestions in my discord server.**
+
+
+# Changelog
+
+**V. 0.0.1**
+Nothing Much except some new random commands like >randomword, >randomimage.
