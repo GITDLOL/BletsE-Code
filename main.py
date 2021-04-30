@@ -42,6 +42,7 @@ async def on_ready():
 # >sourcecode
 # >memes
 # >randomword
+# >randomimage
 
 @bot.command(name='help')
 async def help(message):
