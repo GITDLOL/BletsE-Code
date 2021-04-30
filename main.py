@@ -34,23 +34,44 @@ async def on_ready():
   await bot.change_presence(activity=discord.Game(name="Made By THISFLIP"))
   print(f'{bot.user.name} IS UP')
 
+  
+# Bot's Error if you run
+# a command during the Cooldown.
+
 @bot.event
 async def on_command_error(ctx, error):
   if isinstance(error, commands.CommandOnCooldown):
     msg = '**Cooling Down**, the bot is overheating, try again in {:.2f}s'.format(error.retry_after)
     await ctx.send(msg)
 
-# ALL OF THE COMMANDS, HERE IS A MENU:
-# 
-# >help
-# >pingme
-# >botinvite
-# >credits
-# >facts
-# >sourcecode
-# >memes
-# >randomword
-# >randomimage
+# -------- COMMANDS --------
+
+# Some Commands Might not make it in the final release, so any command with a "%" may not make it to the final release
+
+# >help (DMs you the help m enu)
+# [%] >nondmhelp (Opens the help menu on the current channel)
+# [%] >pingme (Pings you)
+# >botinvite (Gives you thte invite for the bot)
+# >credits (Gives you the credits for the bot [incomplete])
+# >facts (Gives you a random fact)
+# >sourcecode (Leads you to the bot's source code)
+# >memes (Gives you a random dead meme [The current memes are temporary and are only placeholders])
+# >randomword (Gives you a random word)
+# >randomimage (Gives you a random image)
+# >randomname (Gives you a random name)
+# >embedsay (Puts everything you say in an embed)
+# >botversion (Gives you the bot's current version)
+# >randomwebsite (Gives you a ranrdom useless website [None are NSFW])
+# >slowmode [seconds] (Makes it so that you can set a slowmode for a specific channel, very useful for if you want specific slowmode numbers)
+# >lockchannel (Locks the current channel)
+# >unlockchannel (Unlocks the current channel)
+
+# -------- ANYTHING BELOW THIS POINT ARE ECONOMY COMMANDS --------
+# >balance (Get's your balance, if you don't have an account yet it will always show B$150 in your balance
+# >beg (When you beg, you have a chance of getting B$105 or a flat out B$0
+# >deposit [amount] (Puts the amount you specified from your wallet to your bank)
+# >withdraw [amount] (Puts the amount you specified from your bank to your wallet)
+
 
 @bot.command(name='help')
 async def help(message):
