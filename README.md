@@ -3,6 +3,9 @@ Here is some documentation on my BletsE bot.
 
 # Changelog
 
+**V 0.0.3u**
+Added Utility Commands, like >lockchannel and >unlockchannel, also added >embedsay
+
 **TestingBeta 10.0.0f**
   Added Suicide Command
 
