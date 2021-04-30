@@ -5,6 +5,8 @@ Here is some documentation on my BletsE bot.
 
 **V. 0.0.2**
 Mostly some new random commands and more information commmands
+  **TestingBeta 10.0.0f**
+  Added Suicide Command
 
 **V. 0.0.1**
 Nothing Much except some new random commands like >randomword, >randomimage.
