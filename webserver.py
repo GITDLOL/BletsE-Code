@@ -1,3 +1,5 @@
+# This really is just a webserver
+
 from flask import Flask
 from threading import Thread
 
