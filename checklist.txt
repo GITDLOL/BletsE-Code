@@ -1,0 +1,13 @@
+❌ Adding a Shop.
+✅ Adding some admin commands.
+❌ Adding a ban command.
+❌ Giving BletsE a better profile pic.
+❌ Getting more people to work on this bot.
+✅ Lock and Unlock Channel commmands.
+✅ Adding a little bank system.
+❌ Releasing the full bot in its 1.0.0 release.
+✅ Testing Bot.
+✅ Made first Beta release.
+❌ Giving the bot a full official help menu.
+❌ Giving the bot an info website.
+✅ Added more random commands
