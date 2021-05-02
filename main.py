@@ -31,7 +31,7 @@ bot = commands.Bot(command_prefix='>', help_command=None)
 
 @bot.event
 async def on_ready():
-  await bot.change_presence(activity=discord.Game(name="Made By THISFLIP"))
+  await bot.change_presence(activity=discord.Game(name=f"Made By THISFLIP | {len(bot.guilds)} servers"))
   print(f'{bot.user.name} IS UP')
 
   
@@ -77,7 +77,8 @@ async def on_command_error(ctx, error):
 async def help(message):
   await message.send("Check your DMs ✅")
   Help=discord.Embed(title="The Help Page", description="The **Help Page** of the Bot **BletsE**", color=0x00ff00)
-  Help.add_field(name="General Commands", value="📜 **This command gives a random Fact** ```>facts```\n 👿 **Pings you** ```>pingme```\n 🦾 **Gives the invite for the bot.** ```>botinvite```\n 📇 **Gives the source code for the bot** ```>sourcecode```\n 🔠 **Gives you a random word.** ```>randomword```\n 💌 **Gives you a random image** ```>randomimage```\n 😂 **Gives you a random meme**\n ```>memes```\n 🦜**Repeats what you say in an embed** ```>embedsay \"YOU HAVE TO PUT THE THINGS YOU SAY IN QUOTATION MARKS OR IT BREAKS\"```\n 🔔", inline=False)
+  Help.add_field(name="General Commands", value="📜 **This command gives a random Fact** ```>facts```\n 👿 **Pings you** ```>pingme```\n 🦾 **Gives the invite for the bot.** ```>botinvite```\n 📇 **Gives the source code for the bot** ```>sourcecode```\n 🔠 **Gives you a random word.** ```>randomword```\n 💌 **Gives you a random image** ```>randomimage```\n 😂 **Gives you a random meme**\n ```>memes```\n 🦜**Repeats what you say in an embed** ```>embedsay \"YOU HAVE TO PUT THE THINGS YOU SAY IN QUOTATION MARKS OR IT BREAKS\"```\n", inline=False)
+  Help.add_field(name='Rushed Help Menu for submission (Might be removed soon):', value='>facts\n>credits\n>randomname\n>embedsay \"PLEASE USE QUOTATION MARKS FOR SAYING A MESSAGE OR IT BREAKS\"\n>memes\n>botversion\n>randomwebsite\n>slowmode [SECONDS]\n>lockchannel\n>unlockchannel\n>balance\n>deposit [amount]\n>withdraw [amount]\n>beg\n>mybotperms\n>daily\n>weekly\n>calculator [number] [math operator] [number2]\n>bet [amount]\n>ban [user] [reason]\n>kick [user] [reason]\n>delete [messageamount]')
   await message.author.send(embed=Help)
 
 @bot.command(name='nondmhelp')
@@ -119,11 +120,13 @@ async def wordmix(message):
 
 @bot.command(name='sourcecode')
 async def sourcecode(message):
-  await message.send("Here is the bot's source code: https://github.com/GITDLOL/BletsE-Code")
+
+  sourceCode = discord.Embed(title="The Source code for my bot: ", description="https://github.com/GITDLOL/BletsE-Code")
+  await message.send(embed=sourceCode)
 
 @bot.command(name='memes')
 async def meme(message):
-  num = randint(0, 6)
+  num = randint(0, 5)
   try:
       await message.send(file = discord.File("MEMES/{}.jpg".format(num))) 
   except:
@@ -258,7 +261,7 @@ async def deposit(message, depositamount: int):
   else:
     return False
 
-  await message.send("You deposited " + str(depositamount) + " B$ in your bank account") 
+  await message.send("You deposited B$" + str(depositamount) + " in your bank account") 
 
   with open ("mainbank.json", "w") as f:
     json.dump(users,f)
@@ -279,27 +282,145 @@ async def withdraw(message, withamount: int):
   else:
     return False
 
-  await message.send("You withdrew " + str(withamount) + " B$ in your bank account") 
+  await message.send("You withdrew B$" + str(withamount) + " in your bank account") 
 
   with open ("mainbank.json", "w") as f:
     json.dump(users,f)
   return True
 
-# Errors
-@lock.error
-async def whoami_error(error, ctx):
-  if isinstance(error, CheckFailure):  
-    await bot.send_message("You do not have permission")
-@unlock.error
-async def whoami_error(error, ctx):
-  if isinstance(error, CheckFailure):  
-    await bot.send_message("You do not have permission")
-@setdelay.error
-async def whoami_error(error, ctx):
-  if isinstance(error, CheckFailure):  
-    await bot.send_message("You do not have permission")
+@bot.command(name='mybotperms')
+async def balance(ctx):
+  await get_perms(ctx.author)
+
+  user = ctx.author
+  users = await getRankData()
+
+  CurRank = users[str(user.id)]["rank"] 
+
+  BalanceEmbed = discord.Embed(title = "**Your rank is: **", description=CurRank, color = 0x00ff00)
+
+  await ctx.send(embed=BalanceEmbed)
+
+@bot.command(name='daily')
+@commands.cooldown(1, 86400, commands.BucketType.user)
+async def daily(message):
+  await open_account(message.author)
+
+  user = message.author
+  users = await getBankData()
+
+  Earnings = 25000
+
+  await message.send(f'As your daily reward you got B${Earnings}')
+
+  users[str(user.id)]["wallet"] += Earnings
+
+  with open ("mainbank.json", "w") as f:
+    json.dump(users,f)
+  return True
+
+@bot.command(name='weekly')
+@commands.cooldown(1, 604800, commands.BucketType.user)
+async def weekly(message):
+  await open_account(message.author)
+
+  user = message.author
+  users = await getBankData()
+
+  Earnings = 200000
+
+  await message.send(f'As your weekly reward you got B${Earnings}')
+
+  users[str(user.id)]["wallet"] += Earnings
+
+  with open ("mainbank.json", "w") as f:
+    json.dump(users,f)
+  return True
+
+@bot.command(name='calculator')
+async def calc(message, number: int, operator, secondNumber: int):
+
+  if operator == "+":
+    result = number + secondNumber
+  elif operator == "-":
+    result = number - secondNumber
+  elif operator == "*":
+    result = number * secondNumber
+  elif operator == "x":
+    result = number * secondNumber
+  elif operator == "/":
+    result = number // secondNumber
+  else:
+    await message.send("That is not a valid operator")
+
+  ResultEmbed = discord.Embed(title="The result is: ", description=result, color=0x00ff00)
+
+  await message.send(embed=ResultEmbed)
+
+@bot.command(name='bet')
+@commands.cooldown(1, 15, commands.BucketType.user)
+async def bet(message, betamount: int):
+  await open_account(message.author)
+
+  user = message.author
+  users = await getBankData()
+
+  RNG = random.randrange(20)
+
+  if RNG == 10:
+    users[str(user.id)]["wallet"] += betamount
+
+    BetEmbed = discord.Embed(title="You won!", color=0x00ff00)
+    await message.send(embed=BetEmbed)
+  else:
+    users[str(user.id)]["wallet"] -= betamount
+
+    BetEmbed = discord.Embed(title="You lost!", color=0x00ff00)
+    await message.send(embed=BetEmbed)
+
+  with open ("mainbank.json", "w") as f:
+    json.dump(users,f)
+  return True
+
+@bot.command(name='ban')
+@has_permissions(administrator=True)
+async def ban(message, memberName : discord.Member, *, memberReason=None):
+  await memberName.ban(reason = memberReason)
+  await message.send(f'{memberName} was banned')
+
+@bot.command(name='kick')
+@has_permissions(administrator=True)
+async def ban(message, memberName : discord.Member, *, memberReason=None):
+  await memberName.kick(reason = memberReason)
+  await message.send(f'{memberName} was kicked')
+
+@bot.command(name='delete')
+async def clear(ctx, amount = 1):
+  await ctx.channel.purge(limit=amount)
+  await ctx.channel.purge(limit=1)
 
 # Ignore
+async def get_perms(user):
+  
+  users = await getRankData()
+
+  if str(user.id) in users:
+    return False
+  else:
+    users[str(user.id)] = {}
+    users[str(user.id)]["rank"] = "💬 Bot User"
+
+  with open ("ranks.json", "w") as f:
+    json.dump(users,f)
+  return True
+
+async def getRankData():
+  with open("ranks.json", "r") as f:
+    users = json.load(f)
+
+  return users
+
+
 async def open_account(user):
   
   users = await getBankData()
