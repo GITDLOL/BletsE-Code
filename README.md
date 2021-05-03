@@ -3,6 +3,9 @@ Here is some documentation on my BletsE bot.
 
 # Changelog
 
+**V 0.0.4**
+Added an economy system, added ban and kick command >mybotperms which gives you, your rights for the bot.
+
 **V 0.0.3u**
 Added Utility Commands, like >lockchannel and >unlockchannel, also added >embedsay
 
