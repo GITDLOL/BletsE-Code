@@ -86,17 +86,6 @@ async def help(message):
 
   await message.author.send(embed=Help)
 
-@bot.command(name='nondmhelp')
-async def nondmhelp(message):
-  Help = discord.Embed(title='BletsE The Bot\'s Help Menu\n', description='The Prefix is: **>**')
-  Help.add_field(name='Random Commands', value='>randomword\n>randomimage\n>randomname\n>randomwebsite\n>facts\n>memes\n>sourcecode')
-  Help.add_field(name='Info Commands', value='>botinvite\n>credits\n>sourcecode\n>botversion')
-  Help.add_field(name='Administrator Commands', value='>ban `user` `reason`\n>kick `user`\n>slowmode `amount`\n>lockchannel\n>unlockchannel\n>delete `msgamount`\n>nuke')
-  Help.add_field(name='Economy Commands', value='>balance\n>beg\n>deposit `amount`\n>withdraw `amount`\n>daily\n>weekly\n>bet `amount`')
-  Help.add_field(name='Misc Commands', value='>embedsay `\"PUT TEXT IN QUOTE MARKS\"`\n>mybotperms\n>calculator `mathquestion`\n>userinfo\n>hack `user`')
-
-  await message.send(embed=Help)
-
 @bot.command(name='botinvite')
 async def invitebot(message):
     await message.send("**Invite me at:** <https://bit.ly/3vIjXQ5>")
