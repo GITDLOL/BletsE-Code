@@ -4,7 +4,7 @@ Here is some documentation on my BletsE bot.
 # Changelog
 
 **V 1.0.0r**
-Added so much things, including a ban command, a kick command, a bet command, a fun and fake hack command, and a real working help command, memes are still placeholders, I'll probably fix it in the 1.2.0 update.
+Added so much things, including a fun and fake hack command, and a real working help command, memes are still placeholders, I'll probably fix it in the 1.2.0 update.
 
 **V 0.0.4**
 Added an economy system, added ban and kick command >mybotperms which gives you, your rights for the bot.
