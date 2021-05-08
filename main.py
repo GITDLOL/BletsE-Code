@@ -49,8 +49,6 @@ async def on_command_error(ctx, error):
 # Some Commands Might not make it in the final release, so any command with a "%" may not make it to the final release
 
 # >help (DMs you the help m enu)
-# [%] >nondmhelp (Opens the help menu on the current channel)
-# [%] >pingme (Pings you)
 # >botinvite (Gives you thte invite for the bot)
 # >credits (Gives you the credits for the bot [incomplete])
 # >facts (Gives you a random fact)
@@ -65,32 +63,39 @@ async def on_command_error(ctx, error):
 # >slowmode [seconds] (Makes it so that you can set a slowmode for a specific channel, very useful for if you want specific slowmode numbers)
 # >lockchannel (Locks the current channel)
 # >unlockchannel (Unlocks the current channel)
+# >ban [user] [reason] (Bans specific user and gives the specific reason)
+# >kick [user] (Kicks the specific user)
 
 # -------- ANYTHING BELOW THIS POINT ARE ECONOMY COMMANDS --------
 # >balance (Get's your balance, if you don't have an account yet it will always show B$150 in your balance
 # >beg (When you beg, you have a chance of getting B$105 or a flat out B$0
 # >deposit [amount] (Puts the amount you specified from your wallet to your bank)
 # >withdraw [amount] (Puts the amount you specified from your bank to your wallet)
+# >bet [amount] (Bets the amount of money)
 
 
 @bot.command(name='help')
 async def help(message):
   await message.send("Check your DMs ✅")
-  Help=discord.Embed(title="The Help Page", description="The **Help Page** of the Bot **BletsE**", color=0x00ff00)
-  Help.add_field(name="General Commands", value="📜 **This command gives a random Fact** ```>facts```\n 👿 **Pings you** ```>pingme```\n 🦾 **Gives the invite for the bot.** ```>botinvite```\n 📇 **Gives the source code for the bot** ```>sourcecode```\n 🔠 **Gives you a random word.** ```>randomword```\n 💌 **Gives you a random image** ```>randomimage```\n 😂 **Gives you a random meme**\n ```>memes```\n 🦜**Repeats what you say in an embed** ```>embedsay \"YOU HAVE TO PUT THE THINGS YOU SAY IN QUOTATION MARKS OR IT BREAKS\"```\n", inline=False)
-  Help.add_field(name='Rushed Help Menu for submission (Might be removed soon):', value='>facts\n>credits\n>randomname\n>embedsay \"PLEASE USE QUOTATION MARKS FOR SAYING A MESSAGE OR IT BREAKS\"\n>memes\n>botversion\n>randomwebsite\n>slowmode [SECONDS]\n>lockchannel\n>unlockchannel\n>balance\n>deposit [amount]\n>withdraw [amount]\n>beg\n>mybotperms\n>daily\n>weekly\n>calculator [number] [math operator] [number2]\n>bet [amount]\n>ban [user] [reason]\n>kick [user] [reason]\n>delete [messageamount]')
+  Help = discord.Embed(title='BletsE The Bot\'s Help Menu\n', description='The Prefix is: **>**')
+  Help.add_field(name='Random Commands', value='>randomword\n>randomimage\n>randomname\n>randomwebsite\n>facts\n>memes\n>sourcecode')
+  Help.add_field(name='Info Commands', value='>botinvite\n>credits\n>sourcecode\n>botversion')
+  Help.add_field(name='Administrator Commands', value='>ban `user` `reason`\n>kick `user`\n>slowmode `amount`\n>lockchannel\n>unlockchannel\n>delete `msgamount`\n>nuke')
+  Help.add_field(name='Economy Commands', value='>balance\n>beg\n>deposit `amount`\n>withdraw `amount`\n>daily\n>weekly\n>bet `amount`')
+  Help.add_field(name='Misc Commands', value='>embedsay `\"PUT TEXT IN QUOTE MARKS\"`\n>mybotperms\n>calculator `mathquestion`\n>userinfo\n>hack `user`')
+
   await message.author.send(embed=Help)
 
 @bot.command(name='nondmhelp')
 async def nondmhelp(message):
-  Help=discord.Embed(title="Help Page", description="The **Help Page** of the Bot **BletsE**", color=0x00ff00)
-  Help.add_field(name="All Commands", value="📜 **This command gives a random Fact** ```>facts```\n 👿 **Pings you** ```>pingme```\n 🦾 **Gives the invite for the bot.** ```>botinvite```\n 📇 **Gives the source code for the bot** ```>sourcecode```\n 🔠 **Gives you a random word.** ```>randomword```\n 💌 **Gives you a random image** ```>randomimage```\n 😂 **Gives you a random meme**\n ```>memes```\n 🦜**Repeats what you say in an embed** ```>embedsay \"YOU HAVE TO PUT THE THINGS YOU SAY IN QUOTATION MARKS OR IT BREAKS\"```", inline=False)
+  Help = discord.Embed(title='BletsE The Bot\'s Help Menu\n', description='The Prefix is: **>**')
+  Help.add_field(name='Random Commands', value='>randomword\n>randomimage\n>randomname\n>randomwebsite\n>facts\n>memes\n>sourcecode')
+  Help.add_field(name='Info Commands', value='>botinvite\n>credits\n>sourcecode\n>botversion')
+  Help.add_field(name='Administrator Commands', value='>ban `user` `reason`\n>kick `user`\n>slowmode `amount`\n>lockchannel\n>unlockchannel\n>delete `msgamount`\n>nuke')
+  Help.add_field(name='Economy Commands', value='>balance\n>beg\n>deposit `amount`\n>withdraw `amount`\n>daily\n>weekly\n>bet `amount`')
+  Help.add_field(name='Misc Commands', value='>embedsay `\"PUT TEXT IN QUOTE MARKS\"`\n>mybotperms\n>calculator `mathquestion`\n>userinfo\n>hack `user`')
+
   await message.send(embed=Help)
-
-
-@bot.command(name='pingme')
-async def pingme(message):
-    await message.send((message.author.mention))
 
 @bot.command(name='botinvite')
 async def invitebot(message):
@@ -364,19 +369,28 @@ async def bet(message, betamount: int):
 
   user = message.author
   users = await getBankData()
+  walletAmount = users[str(user.id)]["wallet"]
 
   RNG = random.randrange(20)
 
   if RNG == 10:
-    users[str(user.id)]["wallet"] += betamount
 
-    BetEmbed = discord.Embed(title="You won!", color=0x00ff00)
-    await message.send(embed=BetEmbed)
+    if walletAmount == betamount:
+      users[str(user.id)]["wallet"] += betamount
+      
+      BetEmbed = discord.Embed(title="You won!", color=0x00ff00)
+      await message.send(embed=BetEmbed)
+    else:
+      await message.send("You don't have enough money.")
+
   else:
-    users[str(user.id)]["wallet"] -= betamount
-
-    BetEmbed = discord.Embed(title="You lost!", color=0x00ff00)
-    await message.send(embed=BetEmbed)
+    if walletAmount == betamount:
+      users[str(user.id)]["wallet"] -= betamount
+      
+      BetEmbed = discord.Embed(title="You lost!", color=0x00ff00)
+      await message.send(embed=BetEmbed)
+    else:
+      await message.send("You do not have enough money")
 
   with open ("mainbank.json", "w") as f:
     json.dump(users,f)
@@ -395,9 +409,75 @@ async def ban(message, memberName : discord.Member, *, memberReason=None):
   await message.send(f'{memberName} was kicked')
 
 @bot.command(name='delete')
+@has_permissions(administrator=True)
 async def clear(ctx, amount = 1):
   await ctx.channel.purge(limit=amount)
-  await ctx.channel.purge(limit=1)
+  await ctx.channel.purge(limit=1)  
+
+@bot.command(name='nuke')
+@has_permissions(administrator=True)
+async def nuke(ctx, channel: discord.TextChannel = None):
+  if channel == None: 
+    await ctx.send("You did not mention a channel!")
+    return
+
+  nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
+
+  if nuke_channel is not None:
+    new_channel = await nuke_channel.clone(reason="Has been Nuked!")
+    await nuke_channel.delete()
+    await new_channel.send("The channel has been nuked. https://tenor.com/view/nuke-bomb-deaf-dool-explode-gif-14424973")
+
+  else:
+    await ctx.send(f"No channel named {channel.name} was found!")
+
+@bot.command(name='userinfo')
+async def getInfo(message):
+  userCreation = message.author.created_at.strftime("%b %d, %Y")
+
+  userEmbed = discord.Embed(title=f'{message.author}')
+  userEmbed.add_field(name='Your User ID', value=f'{message.author.id}')
+  userEmbed.add_field(name='Joined Date', value=userCreation)
+  await message.send(embed=userEmbed)
+
+@bot.command(name='hack')
+async def hack(message, memberHack):
+
+  RandomPass = [
+    "\"sammylol7\"",
+    "\"iLoveICEcream\"",
+    "\"whatMCs*it\"",
+    "\"n**ga90\""
+  ]
+
+  RandomDMs = [
+    "\"I love cookies\"",
+    "\"show me the things\"",
+    "\"what's the server ip?\""
+  ]
+
+  randDM = random.choice(RandomDMs)
+  randPass = random.choice(RandomPass)
+
+  await message.send("Hacking " + memberHack + "...")
+  
+  await message.send("Getting TCP Packets...")
+  
+  await message.send("Bruteforcing into account...")
+  
+  await message.send("Getting Discord Password...")
+  
+  await message.send("Checking DMs...")
+
+  await message.send("Bruteforcing into network...")
+  
+  await message.send("Getting IP Address...")
+
+  await message.send("Failed to get IP Address")
+  
+  await message.send(memberHack + "\'s last DM was " + randDM)
+  
+  await message.send(memberHack + "\'s password is " + randPass)
 
 # Ignore
 async def get_perms(user):
