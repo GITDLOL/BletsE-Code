@@ -8,7 +8,7 @@
 ❌ Releasing the full bot in its 1.0.0 release.
 ✅ Testing Bot.
 ✅ Made first Beta release.
-❌ Giving the bot a full official help menu.
+✅ Giving the bot a full official help menu.
 ✅ Giving the bot a rushed help menu.
 ❌ Giving the bot an info website.
 ✅ Adding more random commands
