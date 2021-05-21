@@ -3,6 +3,9 @@ Here is some documentation on my BletsE bot.
 
 # Changelog
 
+**V 1.1.0j**
+Added >ping command for bot latency, it's also too specific. Fixed some bugs. Added Better Memes and deleted outdated ones.
+
 **V 1.0.01v**
 Removed >nuke command because people might abuse in servers.
 
