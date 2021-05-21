@@ -54,4 +54,4 @@ Here are the things that you can change and will get approved unless an exceptio
 "You can use >memes to get a random meme."
 
 
-**The Memes Command, you can give me some more memes to include in my bot by going to my #suggestions in my discord server.**
+**The Memes Command, you can give me some more memes to include in my bot by going to my #suggestions in my discord server. LOL**
