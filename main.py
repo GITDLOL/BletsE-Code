@@ -2,7 +2,6 @@
 # to make the bot working.
 
 
-import mcstatus
 import os
 import discord
 import random
