@@ -3,6 +3,9 @@ Here is some documentation on my BletsE bot.
 
 # Changelog
 
+**V. 1.2.0prMS**
+Added One Moderator Command, >broadcast, sadly you can't try it out unless you're the Bot Owner.
+
 **V 1.1.0j**
 Added >ping command for bot latency, it's also too specific. Fixed some bugs. Added Better Memes and deleted outdated ones.
 
