@@ -1,5 +1,5 @@
 # BletsE Source Code
-Here is some documentation on my BletsE bot.
+The Code for everything about the bot including some JSON data.
 
 # Changelog
 
@@ -58,3 +58,9 @@ Here are the things that you can change and will get approved unless an exceptio
 
 
 **The Memes Command, you can give me some more memes to include in my bot by going to my #suggestions in my discord server. LOL**
+
+
+# Owner's Notes
+
+**Note 1 (07/10/2021)**
+Not much bot updates yet. I love this bot. We also just reached 17 servers. Thank you to the people who invited the bot.
