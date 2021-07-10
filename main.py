@@ -2,6 +2,7 @@
 # to make the bot working.
 
 
+import mcstatus
 import os
 import discord
 import random
@@ -13,7 +14,8 @@ import json
 from random import randint
 from discord.ext.commands import Bot, has_permissions, CheckFailure
 import asyncio
-
+from discord.utils import get
+from discord.ext import tasks
 # This Part basically gets the bot's token 
 # from a .env file
 
@@ -30,8 +32,18 @@ bot = commands.Bot(command_prefix='>', help_command=None)
 
 @bot.event
 async def on_ready():
-  await bot.change_presence(activity=discord.Game(name=f"Made By THISFLIP | {len(bot.guilds)} servers"))
   print(f'{bot.user.name} IS UP')
+
+  while True:
+    await bot.change_presence(activity=discord.Game(name=f"Made By TorBrwsng | {len(bot.guilds)} servers"))
+    await asyncio.sleep(10)
+    await bot.change_presence(activity=discord.Game(name="Bot Version: V. 1.0.0r"))
+    await asyncio.sleep(10)
+    await bot.change_presence(activity=discord.Game(name=">help"))
+    await asyncio.sleep(10)
+    await bot.change_presence(activity=discord.Game(name="Crying for 10 hours"))
+    await bot.change_presence(activity=discord.Game(name="https://discord.gg/qcBdWGfvpa"))
+    await asyncio.sleep(10)
 
   
 # Bot's Error if you run
@@ -77,11 +89,11 @@ async def on_command_error(ctx, error):
 async def help(message):
   await message.send("Check your DMs ✅")
   Help = discord.Embed(title='BletsE The Bot\'s Help Menu\n', description='The Prefix is: **>**')
-  Help.add_field(name='Random Commands', value='>randomword\n>randomimage\n>randomname\n>randomwebsite\n>facts\n>memes\n>sourcecode')
+  Help.add_field(name='Random Commands', value='>randomword\n>randomimage\n>randomname\n>randomwebsite\n>facts\n>memes')
   Help.add_field(name='Info Commands', value='>botinvite\n>credits\n>sourcecode\n>botversion')
-  Help.add_field(name='Administrator Commands', value='>ban `user` `reason`\n>kick `user`\n>slowmode `amount`\n>lockchannel\n>unlockchannel\n>delete `msgamount`\n>nuke')
+  Help.add_field(name='Administrator Commands', value='>ban `user` `reason`\n>kick `user`\n>slowmode `amount`\n>lockchannel\n>unlockchannel\n>delete `msgamount`\n>mute `user` `reason`\n>unmute `user`')
   Help.add_field(name='Economy Commands', value='>balance\n>beg\n>deposit `amount`\n>withdraw `amount`\n>daily\n>weekly\n>bet `amount`')
-  Help.add_field(name='Misc Commands', value='>embedsay `\"PUT TEXT IN QUOTE MARKS\"`\n>mybotperms\n>calculator `mathquestion`\n>userinfo\n>hack `user`')
+  Help.add_field(name='Misc Commands', value='>embedsay `\"PUT TEXT IN QUOTE MARKS\"`\n>mybotperms\n>calculator `mathquestion`\n>hack `user`\n>ping\n>vote')
 
   await message.author.send(embed=Help)
 
@@ -119,7 +131,7 @@ async def sourcecode(message):
 
 @bot.command(name='memes')
 async def meme(message):
-  num = randint(0, 5)
+  num = randint(0, 10)
   try:
       await message.send(file = discord.File("MEMES/{}.jpg".format(num))) 
   except:
@@ -168,7 +180,7 @@ async def embedsay(message, args):
 @bot.command(name='botversion')
 async def botversion(message):
 
-  BotVer = "0.0.3u"
+  BotVer = "1.1.0j"
 
   BotVersion=discord.Embed(title=BotVer, description="The bot is currently on Version " + BotVer + " to see more versions click here: https://github.com/GITDLOL/BletsE-Code", color=0x00ff00)
   await message.send(embed=BotVersion)
@@ -187,20 +199,20 @@ async def randweb(message):
   await message.send(embed=RandWeb)
 
 @bot.command(name='slowmode')
-@has_permissions(administrator=True)
+@has_permissions(manage_channels=True)
 async def setdelay(ctx, seconds: int):
     await ctx.channel.edit(slowmode_delay=seconds)
 
     await ctx.send(f"The current slowmode for this channel is now {seconds} seconds!")
 
 @bot.command(name='lockchannel')
-@has_permissions(administrator=True)
+@has_permissions(manage_channels=True)
 async def lock(message):
     await message.channel.set_permissions(message.guild.default_role, send_messages=False)
     await message.send("Channel Locked 🔒")
 
 @bot.command(name='unlockchannel')
-@has_permissions(administrator=True)
+@has_permissions(manage_channels=True)
 async def unlock(message):
   await message.channel.set_permissions(message.guild.default_role, send_messages=True)
   await message.send("Channel Unlocked 🔓")
@@ -260,7 +272,49 @@ async def deposit(message, depositamount: int):
     json.dump(users,f)
   return True
 
+@bot.command(name='dep')
+async def deposit(message, depositamount: int):
+  await open_account(message.author)
+
+  user = message.author
+  users = await getBankData()
+
+  walletAmount = users[str(user.id)]["wallet"]
+
+  if depositamount <= walletAmount:
+    users[str(user.id)]["wallet"] -= depositamount
+    users[str(user.id)]["bank"] += depositamount
+  else:
+    return False
+
+  await message.send("You deposited B$" + str(depositamount) + " in your bank account") 
+
+  with open ("mainbank.json", "w") as f:
+    json.dump(users,f)
+  return True
+
 @bot.command(name='withdraw')
+async def withdraw(message, withamount: int):
+  await open_account(message.author)
+
+  user = message.author
+  users = await getBankData()
+  
+  bankAmount = users[str(user.id)]["bank"]
+
+  if withamount <= bankAmount:
+    users[str(user.id)]["wallet"] += withamount
+    users[str(user.id)]["bank"] -= withamount
+  else:
+    return False
+
+  await message.send("You withdrew B$" + str(withamount) + " in your bank account") 
+
+  with open ("mainbank.json", "w") as f:
+    json.dump(users,f)
+  return True
+
+@bot.command(name='with')
 async def withdraw(message, withamount: int):
   await open_account(message.author)
 
@@ -359,11 +413,11 @@ async def bet(message, betamount: int):
   users = await getBankData()
   walletAmount = users[str(user.id)]["wallet"]
 
-  RNG = random.randrange(20)
+  RNG = random.randint(0, 5)
 
-  if RNG == 10:
+  if RNG == 3:
 
-    if walletAmount == betamount:
+    if walletAmount >= betamount:
       users[str(user.id)]["wallet"] += betamount
       
       BetEmbed = discord.Embed(title="You won!", color=0x00ff00)
@@ -372,61 +426,41 @@ async def bet(message, betamount: int):
       await message.send("You don't have enough money.")
 
   else:
-    if walletAmount == betamount:
+    if walletAmount >= betamount:
       users[str(user.id)]["wallet"] -= betamount
       
       BetEmbed = discord.Embed(title="You lost!", color=0x00ff00)
       await message.send(embed=BetEmbed)
     else:
-      await message.send("You do not have enough money")
+      await message.send("You don't have enough money.")
 
   with open ("mainbank.json", "w") as f:
     json.dump(users,f)
   return True
 
 @bot.command(name='ban')
-@has_permissions(administrator=True)
+@has_permissions(ban_members=True)
 async def ban(message, memberName : discord.Member, *, memberReason=None):
   await memberName.ban(reason = memberReason)
   await message.send(f'{memberName} was banned')
 
 @bot.command(name='kick')
-@has_permissions(administrator=True)
+@has_permissions(kick_members=True)
 async def ban(message, memberName : discord.Member, *, memberReason=None):
   await memberName.kick(reason = memberReason)
   await message.send(f'{memberName} was kicked')
 
 @bot.command(name='delete')
-@has_permissions(administrator=True)
-async def clear(ctx, amount = 1):
-  await ctx.channel.purge(limit=amount)
-  await ctx.channel.purge(limit=1)  
+@has_permissions(manage_channels=True)
+async def clear(message, amount = 1):
+  await message.channel.purge(limit=amount)
+  await message.channel.purge(limit=1)
 
-@bot.command(name='nuke')
-@has_permissions(administrator=True)
-async def nuke(ctx, channel: discord.TextChannel = None):
-  if channel == None: 
-    await ctx.send("You did not mention a channel!")
-    return
+  purgeEmbed = discord.Embed(title="Deleted Messages", description="You deleted " + str(amount) + " messages\n**THIS MESSAGE WILL DELETE AUTOMATICALLY**, DO NOT SEND ANY MESSAGES AFTER THIS OR IT WILL DELETE THAT MESSAGE INSTEAD.")
 
-  nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
-
-  if nuke_channel is not None:
-    new_channel = await nuke_channel.clone(reason="Has been Nuked!")
-    await nuke_channel.delete()
-    await new_channel.send("The channel has been nuked. https://tenor.com/view/nuke-bomb-deaf-dool-explode-gif-14424973")
-
-  else:
-    await ctx.send(f"No channel named {channel.name} was found!")
-
-@bot.command(name='userinfo')
-async def getInfo(message):
-  userCreation = message.author.created_at.strftime("%b %d, %Y")
-
-  userEmbed = discord.Embed(title=f'{message.author}')
-  userEmbed.add_field(name='Your User ID', value=f'{message.author.id}')
-  userEmbed.add_field(name='Joined Date', value=userCreation)
-  await message.send(embed=userEmbed)
+  await message.send(embed=purgeEmbed)
+  await asyncio.sleep(5)
+  await message.channel.purge(limit=1)  
 
 @bot.command(name='hack')
 async def hack(message, memberHack):
@@ -441,31 +475,129 @@ async def hack(message, memberHack):
   RandomDMs = [
     "\"I love cookies\"",
     "\"show me the things\"",
-    "\"what's the server ip?\""
+    "\"what's the server ip?\"",
+    "\"You haven't talked to me in a while :(\""
   ]
 
   randDM = random.choice(RandomDMs)
   randPass = random.choice(RandomPass)
 
   await message.send("Hacking " + memberHack + "...")
-  
+  await asyncio.sleep(3)
+
   await message.send("Getting TCP Packets...")
-  
+  await asyncio.sleep(3)
+
   await message.send("Bruteforcing into account...")
-  
+  await asyncio.sleep(3)
+
   await message.send("Getting Discord Password...")
-  
+  await asyncio.sleep(3)
+
   await message.send("Checking DMs...")
+  await asyncio.sleep(3)
 
   await message.send("Bruteforcing into network...")
-  
+  await asyncio.sleep(3)
+
   await message.send("Getting IP Address...")
+  await asyncio.sleep(3)
 
   await message.send("Failed to get IP Address")
-  
+  await asyncio.sleep(3)
+
   await message.send(memberHack + "\'s last DM was " + randDM)
-  
   await message.send(memberHack + "\'s password is " + randPass)
+
+@bot.command(name='mute')
+@has_permissions(manage_roles=True)
+async def mute(ctx, member: discord.Member, reason=None):
+  guild = ctx.guild
+  mutedRole = discord.utils.get(guild.roles, name="Muted")
+  
+  if not mutedRole:
+    mutedRole = await guild.create_role(name="Muted")
+
+  for channel in guild.channels:
+    await channel.set_permissions(mutedRole, speak=False, send_messages=False)
+  embed = discord.Embed(title="Muted", description=f"{member.mention} was muted ", colour=discord.Colour.light_gray())
+  embed.add_field(name="Reason:", value=reason, inline=False)
+  await ctx.send(embed=embed)
+  await member.add_roles(mutedRole, reason=reason)
+  await member.send(f"You have been muted from: {guild.name} reason: {reason}")
+
+@bot.command(name='unmute')
+@has_permissions(manage_roles=True)
+async def unmute(ctx, member: discord.Member):
+   mutedRole = discord.utils.get(ctx.guild.roles, name="Muted")
+
+   await member.remove_roles(mutedRole)
+   await member.send(f"You have been unmuted from: - {ctx.guild.name}")
+   embed = discord.Embed(title="Unmute", description=f"Unmuted {member.mention}",colour=discord.Colour.light_gray())
+   await ctx.send(embed=embed)
+
+@bot.command(name='ping')
+async def justleavemealone(message):
+  await message.send(f'Pong **{bot.latency}**!')
+
+@bot.command(name='setup')
+async def botsetup(message):
+  setupembed = discord.Embed(title="Bot Requirements and Setup")
+  setupembed.add_field(name="Role Requirements", value="Please put the BletsE role above members role or put the default bot role above members")
+  setupembed.add_field(name="More setup options will be added soon.", value="Coming Soon")
+
+  await message.send(embed=setupembed)
+
+@bot.command(name='vote')
+async def botvote(message):
+  
+  voteEm = discord.Embed(title="Vote For BletsE", description="**discordbotlist.com**\n [`CLICK HERE`](https://discordbotlist.com/bots/bletse/upvote)\n**top.gg**\n [`CLICK HERE`](https://top.gg/bot/823162374206914570/vote)")
+
+  await message.send(embed=voteEm)
+
+@bot.command(name='broadcast')
+async def broadcast(ctx, *, msg):
+  await get_perms(ctx.author)
+
+  user = ctx.author
+  users = await getRankData()
+
+  userperm = users[str(user.id)]["rank"]
+
+  if userperm == "✅ Bot Owner":
+    for server in bot.guilds:
+      for channel in server.text_channels:
+        try:
+          await channel.send(msg)
+        except Exception:
+          continue
+        else:
+          break
+  else:
+    await ctx.send("Function Denied")
+
+@bot.command(name='staffchat')
+async def getprivstaff(message):
+  await get_perms(message.author)
+
+  user = message.author
+  users = await getRankData()
+
+  userperms = users[str(user.id)]["rank"]
+
+  if userperms == "✅ Bot Owner":
+    await message.send("Check your DMs for the chat")
+    await message.author.send("Leaking of this server will result in a demote and every person who joins has to be verified by their higher role https://discord.gg/wNaHHSUJvT")
+  elif userperms == "🛠️ Utilitator":
+    await message.send("Check your DMs for the chat")
+    await message.author.send("Leaking of this server will result in a demote and every person who joins has to be verified by their higher role https://discord.gg/wNaHHSUJvT")
+  else:
+    await message.send("Function Denied")
+
+@bot.command(name='partners')
+async def getpartners(message):
+  partEm = discord.Embed(title="Partners", description="[Saw FAN SERVER](https://discord.gg/QMQQqmyE2K)")
+  await message.send(embed=partEm)
 
 # Ignore
 async def get_perms(user):
