@@ -73,3 +73,6 @@ Not much bot updates yet. I love this bot. We also just reached 17 servers. Than
 
 **Note 2 (07/11/2021)**
 Working on one gigantic bot update.
+
+**Note 3 (07/11/2021)**
+Updated Info, and I'm on arch linux now.
