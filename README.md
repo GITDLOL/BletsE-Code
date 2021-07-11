@@ -3,6 +3,9 @@ The Code for everything about the bot including some JSON data.
 
 # Changelog
 
+**V 1.2.1y**
+Fixed >memes command and the bot status.
+
 **V. 1.2.0prMS**
 Added One Moderator Command, >broadcast, sadly you can't try it out unless you're the Bot Owner.
 
@@ -64,3 +67,6 @@ Here are the things that you can change and will get approved unless an exceptio
 
 **Note 1 (07/10/2021)**
 Not much bot updates yet. I love this bot. We also just reached 17 servers. Thank you to the people who invited the bot.
+
+**Note 2 (07/11/2021)**
+Working on one gigantic bot update.
