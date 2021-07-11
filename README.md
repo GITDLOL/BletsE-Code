@@ -3,6 +3,9 @@ The Code for everything about the bot including some JSON data.
 
 # Changelog
 
+**V 1.3.0i**
+The Info Update. Updated all info including the >credits and the bot status.
+
 **V 1.2.1y**
 Fixed >memes command and the bot status.
 
