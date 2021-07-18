@@ -1,8 +1,5 @@
 # This imports all the stuff needed 
 # to make the bot working.
-
-
-import mcstatus
 import os
 import discord
 import random
@@ -16,14 +13,14 @@ from discord.ext.commands import Bot, has_permissions, CheckFailure
 import asyncio
 from discord.utils import get
 from discord.ext import tasks
+
 # This Part basically gets the bot's token 
 # from a .env file
-
 load_dotenv()
 TOKEN = os.getenv('BOTTOKEN')
 
 
-# Bot Prefix
+# Bot Settings
 
 bot = commands.Bot(command_prefix='>', help_command=None)
 
@@ -57,8 +54,6 @@ async def on_command_error(ctx, error):
 
 # -------- COMMANDS --------
 
-# Some Commands Might not make it in the final release, so any command with a "%" may not make it to the final release
-
 # >help (DMs you the help m enu)
 # >botinvite (Gives you thte invite for the bot)
 # >credits (Gives you the credits for the bot [incomplete])
@@ -85,6 +80,7 @@ async def on_command_error(ctx, error):
 # >bet [amount] (Bets the amount of money)
 
 
+# Code For the Commands.
 @bot.command(name='help')
 async def help(message):
   await message.send("Check your DMs ✅")
@@ -599,7 +595,7 @@ async def getpartners(message):
   partEm = discord.Embed(title="Partners", description="[Saw FAN SERVER](https://discord.gg/QMQQqmyE2K)")
   await message.send(embed=partEm)
 
-# Ignore
+# HyperFunctions
 async def get_perms(user):
   
   users = await getRankData()
