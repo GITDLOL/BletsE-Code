@@ -77,5 +77,8 @@ Working on one gigantic bot update.
 **Note 3 (07/11/2021)**
 Updated Info, and I'm on arch linux now.
 
-**Note 4 (07/18/2021**
+**Note 4 (07/18/2021)**
 Just added more stuff lol.
+
+**Note 5 (08/01/2021)**
+Added a bunch of stuff and organized scripts. Also got one staff member.
